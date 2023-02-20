@@ -9,10 +9,7 @@ import SwiftUI
 
 struct ContentView: View
 {
-    @State var items = [
-        Item(t: "One", te:"qm"),
-        Item(t: "Two", te:"")
-    ]
+    @EnvironmentObject var noteManager:NoteManager
     var body: some View
     {
         NavigationView
@@ -21,10 +18,12 @@ struct ContentView: View
             {
                 Button("Add")
                 {
+                    let item = Item(title:"New Note", text: "")
+                    noteManager.notes.append(item)
+                    noteManager.addNote(title: item.title, text: item.text)
                     
-                    items.append(Item(t:"New Note", te: ""))
                 }
-                List($items)
+                List($noteManager.notes)
                 {
                     item in
                     NavigationLink(destination: DetailView(title: item.title, text: item.text))
@@ -32,17 +31,20 @@ struct ContentView: View
                         Text(item.title.wrappedValue)
                     }
                 }
-            }.background()
+            }.background().onAppear()
+            {
+                noteManager.startListener()
+            }
         }
     }
 }
 
 class Item:Identifiable
 {
-    init(t:String, te:String)
+    init(title:String, text:String)
     {
-        title = t
-        text = te
+        self.title = title
+        self.text = text
     }
     var id = UUID()
     var title:String
@@ -52,5 +54,6 @@ class Item:Identifiable
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(NoteManager())
     }
 }

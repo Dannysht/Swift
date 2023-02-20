@@ -23,7 +23,7 @@ struct CreateNoteView: View {
             }.padding(25)
             Button("Save")
             {
-                list.append(Item(t: title, te: text))
+                list.append(Item(title: <#T##String#>, text: <#T##String#>: title, te: text))
             }.position(x:130, y:-23)
         }
         

@@ -10,13 +10,11 @@ import SwiftUI
 struct DetailView: View {
     @Binding var title: String
     @Binding var text:String
-    
     var body: some View {
         VStack
         {
             TextField("New Note", text:$title)
             TextField("", text:$text)
-            
         }
         .padding(.leading, 10)
         Spacer()

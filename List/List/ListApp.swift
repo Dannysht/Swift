@@ -9,7 +9,6 @@ import FirebaseCore
 
 @main
 struct ListApp: App {
-    @StateObject var noteManager = NoteManager()
     
     init() {
         FirebaseApp.configure()
@@ -18,7 +17,6 @@ struct ListApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(noteManager)
         }
     }
 }

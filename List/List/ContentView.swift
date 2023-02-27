@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ContentView: View
 {
-    @EnvironmentObject var noteManager:NoteManager
+    //@EnvironmentObject var noteManager:NoteManager
+    @ObservedObject var demoFirebase = FirebaseDemo()
     var body: some View
     {
         NavigationView
@@ -18,22 +19,23 @@ struct ContentView: View
             {
                 Button("Add")
                 {
-                    let item = Item(title:"New Note", text: "")
-                    noteManager.notes.append(item)
-                    noteManager.addNote(title: item.title, text: item.text)
                     
+                    demoFirebase.addItem(title: "New Note", text: "")
                 }
-                List($noteManager.notes)
+                List($demoFirebase.notes)
                 {
                     item in
-                    NavigationLink(destination: DetailView(title: item.title, text: item.text))
+                    NavigationLink(destination: DetailView(title: item.title, text: item.text, image: item.photo))
                     {
                         Text(item.title.wrappedValue)
                     }
                 }
             }.background().onAppear()
             {
-                noteManager.startListener()
+                
+                //demoFirebase.addItem(text: "Hello")
+                demoFirebase.startListener()
+                demoFirebase.addImage()
             }
         }
     }
@@ -41,19 +43,22 @@ struct ContentView: View
 
 class Item:Identifiable
 {
-    init(title:String, text:String)
+    init(id: String, title:String, text:String, photo:UIImage)
     {
+        self.id = id
         self.title = title
         self.text = text
+        self.photo = photo
     }
-    var id = UUID()
+    var id : String
     var title:String
+    var photo:UIImage
     var text:String
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(NoteManager())
+            .environmentObject(FirebaseDemo())
     }
 }

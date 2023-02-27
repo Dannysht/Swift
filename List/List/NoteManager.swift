@@ -5,8 +5,7 @@
 //  Created by Daniel Shterev on 14.02.23.
 //
 
-import SwiftUI
-import Firebase
+/*import Firebase
 
 class NoteManager: ObservableObject
 {
@@ -99,3 +98,4 @@ class NoteManager: ObservableObject
     
     
 }
+*/

@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 import FirebaseStorage
 import UIKit
+var fService = FirebaseDemo()
 
 class FirebaseDemo:ObservableObject
 {
@@ -17,16 +18,15 @@ class FirebaseDemo:ObservableObject
     private let collection = "notes"
     @Published var notes = [Item]()
     
-    func downloadImage()
+    func downloadImage(note : Item, completion: @escaping (UIImage?) -> Void)
     {
-        let imageRef = storage.reference(withPath: "1*o4O4SdRfLDAbX2Z41mtUbQ.png")
+        let imageRef = storage.reference(withPath: note.id)
         imageRef.getData(maxSize: 5000000)
         {
             data, error in
             if error == nil
             {
-                let image = UIImage(data: data!)
-                print(image?.description)
+                completion(UIImage(data: data!))
             }
             else
             {
@@ -67,6 +67,36 @@ class FirebaseDemo:ObservableObject
         doc.setData(data)
     }
     
+    func deleteImage(note: Item)
+    {
+        
+    }
+    
+    func uploadImage(note: Item)
+    {
+        
+    }
+    
+    func updateNote(note:Item)
+    {
+        if note.photo != nil
+        {
+            uploadImage(note: note)
+        }
+        if !note.hasImage
+        {
+            deleteImage(note:note)
+        }
+        let doc = db.collection(collection).document(note.id)
+        var data = [String:Any]()
+        data["title"] = note.title
+        data["text"] = note.text
+        data["hasImage"] = note.hasImage
+        doc.setData(data)
+    }
+    
+    
+    
     func startListener()
     {
         db.collection(collection).addSnapshotListener {snapshot, error in
@@ -77,23 +107,27 @@ class FirebaseDemo:ObservableObject
                     self.notes.removeAll()
                     for doc in snap.documents
                     {
-                        if let string = doc.data()["text"] as? String, let title = doc.data()["title"] as? String
+                        if let string = doc.data()["text"] as? String, let title = doc.data()["title"] as? String, let hasImage = doc.data()["hasImage"] as? Bool
                         {
-                            let imageRef = self.storage.reference(withPath: "1*o4O4SdRfLDAbX2Z41mtUbQ.png")
-                            imageRef.getData(maxSize: 5000000)
+                            if hasImage
                             {
-                                data, error in
-                                if error == nil
+                                let imageRef = self.storage.reference(withPath:doc.data()["id"] as! String)
+                                imageRef.getData(maxSize: 5000000)
                                 {
-                                    let image = UIImage(data: data!)
-                                    let n = Item(id: doc.documentID, title:title, text: string, photo: image!)
-                                    self.notes.append(n)
-                                }
-                                else
-                                {
-                                    print("error downloading \(error.debugDescription)")
+                                    data, error in
+                                    if error == nil
+                                    {
+                                        let image = UIImage(data: data!)
+                                        let n = Item(id: doc.documentID, title:title, text: string, photo: image!)
+                                        self.notes.append(n)
+                                    }
+                                    else
+                                    {
+                                        print("error downloading \(error.debugDescription)")
+                                    }
                                 }
                             }
+                            
                             print(string)
                         }
                     }

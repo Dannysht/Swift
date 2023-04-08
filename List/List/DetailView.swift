@@ -6,17 +6,65 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct DetailView: View {
+    @State private var selectedItem: PhotosPickerItem? = nil
+    @State private var image : UIImage?
     @Binding var title: String
-    @Binding var text:String
-    @Binding var image : UIImage
+    @Binding var note : Item
     var body: some View {
-        VStack
+        NavigationStack
         {
-            TextField("New Note", text:$title)
-            Image(uiImage: image)
-            TextField("", text:$text)
+            VStack
+            {
+                HStack
+                {
+                    Button("Save")
+                    {
+                        
+                    }
+                    Button("Delete image")
+                    {
+                        
+                    }
+                }
+                VStack
+                {
+                    TextField("New Note", text:$title)
+                    Image(uiImage: image ?? UIImage(systemName: "photo.circle.fill")!)
+                    TextField("", text:$note.text)
+                }
+            }
+        }
+        .toolbar{
+            ToolbarItem(placement: .navigationBarTrailing){
+                PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()){
+                    Text("Select a photo")
+                }
+                
+            }
+        }
+        .onChange(of: selectedItem)
+        {
+            item in Task(priority: .background)
+            {
+                if let data = try? await item?.loadTransferable(type: Data.self)
+                {
+                    note.photo = UIImage(data: data)
+                    image = note.photo
+                    note.hasImage = true
+                }
+            }
+        }
+        .onAppear()
+        {
+            if note.hasImage
+            {
+                fService.downloadImage(note:note){
+                    imageFromFB in image = imageFromFB
+                }
+            }
         }
         .padding(.leading, 10)
         Spacer()

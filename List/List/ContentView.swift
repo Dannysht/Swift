@@ -25,7 +25,7 @@ struct ContentView: View
                 List($demoFirebase.notes)
                 {
                     item in
-                    NavigationLink(destination: DetailView(title: item.title, text: item.text, image: item.photo))
+                    NavigationLink(destination: DetailView(title: item.title, note: item))
                     {
                         Text(item.title.wrappedValue)
                     }
@@ -50,9 +50,10 @@ class Item:Identifiable
         self.text = text
         self.photo = photo
     }
+    var hasImage : Bool = false
     var id : String
     var title:String
-    var photo:UIImage
+    var photo:UIImage? = nil
     var text:String
 }
 

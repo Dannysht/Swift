@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D31D9B129E15C89007E4E95 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5D31D9B029E15C88007E4E95 /* GoogleService-Info.plist */; };
 		5DB7935829CE01AB00D39147 /* DayMood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB7935729CE01AB00D39147 /* DayMood.swift */; };
 		5DB7935A29CE08B200D39147 /* PreviousDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB7935929CE08B200D39147 /* PreviousDays.swift */; };
 		5DEF297729C059350057FB4B /* moodletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEF297629C059350057FB4B /* moodletApp.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D31D9B029E15C88007E4E95 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5DB7935729CE01AB00D39147 /* DayMood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayMood.swift; sourceTree = "<group>"; };
 		5DB7935929CE08B200D39147 /* PreviousDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviousDays.swift; sourceTree = "<group>"; };
 		5DEF297329C059350057FB4B /* moodlet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moodlet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,6 +75,7 @@
 				5DEF297A29C059360057FB4B /* Assets.xcassets */,
 				5DEF297C29C059360057FB4B /* Preview Content */,
 				5DF848D529CB5F2C003C2BE2 /* Mood.swift */,
+				5D31D9B029E15C88007E4E95 /* GoogleService-Info.plist */,
 			);
 			path = moodlet;
 			sourceTree = "<group>";
@@ -129,6 +132,8 @@
 				Base,
 			);
 			mainGroup = 5DEF296A29C059350057FB4B;
+			packageReferences = (
+			);
 			productRefGroup = 5DEF297429C059350057FB4B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -145,6 +150,7 @@
 			files = (
 				5DEF297E29C059360057FB4B /* Preview Assets.xcassets in Resources */,
 				5DEF297B29C059360057FB4B /* Assets.xcassets in Resources */,
+				5D31D9B129E15C89007E4E95 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
